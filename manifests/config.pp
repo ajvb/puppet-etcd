@@ -26,7 +26,7 @@ class etcd::config {
     }
   }
 
-  if $::operatingsystemmajrelease == 6 {
+  if $::operatingsystem == 'Debian' or $::operatingsystemmajrelease == 6 {
     file { '/etc/init.d/etcd':
       ensure  => file,
       owner   => 'root',
