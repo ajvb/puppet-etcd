@@ -26,13 +26,24 @@ class etcd::config {
     }
   }
 
-  if $::osfamily == 'Debian' or $::operatingsystemmajrelease == 6 {
+  if $::operatingsystemmajrelease == 6 {
     file { '/etc/init.d/etcd':
       ensure  => file,
       owner   => 'root',
       group   => 'root',
       mode    => '0755',
       content => template("${module_name}/etc/etcd.init"),
+    }
+  }
+
+  if $::operatingsystem == 'Ubuntu' {
+    file { '/etc/init/etcd.conf':
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0444',
+      content => template('etcd/etcd.upstart.erb'),
+      notify  => Service['etcd']
     }
   }
 }

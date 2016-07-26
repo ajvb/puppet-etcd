@@ -1,0 +1,20 @@
+# etcd - distributed configuration daemon
+#
+# Maintained by Puppet. Do not edit by hand. 
+#
+description	"distributed configuration daemon"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 10
+kill timeout 10
+
+env PID_FILE=/var/run/etcd/etcd.pid
+env USER=root
+env ETCD=/usr/bin/etcd
+
+script
+  exec start-stop-daemon -c $USER -p $PID_FILE -x $ETCD -S -- -config /etc/default/etcd.conf
+end script
