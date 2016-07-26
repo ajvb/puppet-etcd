@@ -16,5 +16,6 @@ env USER=root
 env ETCD=/usr/bin/etcd
 
 script
-  exec start-stop-daemon -c $USER -p $PID_FILE -x $ETCD -S -- --config-file /etc/default/etcd.conf
+  . /etc/default/etcd.conf
+  exec start-stop-daemon -c $USER -p $PID_FILE -x $ETCD -S
 end script
